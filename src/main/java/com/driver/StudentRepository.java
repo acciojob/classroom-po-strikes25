@@ -17,6 +17,7 @@ public class StudentRepository {
     public StudentRepository() {
         this.student_database = new HashMap<>();
         this.teacher_database = new HashMap<>();
+        this.teacher_student_database = new HashMap<>();
     }
 
     public String addStudent(Student student){
