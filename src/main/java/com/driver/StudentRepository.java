@@ -11,7 +11,6 @@ import java.util.List;
 public class StudentRepository {
     HashMap<String, Student> student_database; // Key - Student Name : Value - Student Data
     HashMap<String, Teacher> teacher_database; // Key - Teacher Name : Value - Teacher Data
-
     HashMap<String, ArrayList<String>> teacher_student_database; // Key - Teacher Name : Value - List of Students
 
     public StudentRepository() {
@@ -40,12 +39,7 @@ public class StudentRepository {
     }
 
     public Student getStudentByName(String student_name){
-        for(String stud : student_database.keySet()){
-            Student student_details = student_database.get(stud);
-            if(student_details.getName().equals(student_name))
-                return student_details;
-        }
-        return null;
+        return student_database.get(student_name);
     }
 
     public Teacher getTeacherByName(String teacher_name){
@@ -58,33 +52,23 @@ public class StudentRepository {
     }
 
     public List<String> getStudentsByTeacherName(String teacher_name){
-        for(String teach : teacher_student_database.keySet()){
-            List<String> students = teacher_student_database.get(teach);
-            return students;
-        }
-        return null;
+        if(teacher_student_database.containsKey(teacher_name))
+            return new ArrayList<>(teacher_student_database.get(teacher_name));
+        return new ArrayList<>();
     }
 
     public List<String> getAllStudents(){
-        List<String> all_students = null;
-        for(String stud : student_database.keySet()) {
-            Student student_details = student_database.get(stud);
-            all_students.add(student_details.getName());
-        }
-        return all_students;
+        return new ArrayList<>(student_database.keySet());
     }
 
-    public void deleteTeacherByName(String teacher_name) {
-        for(String teach : teacher_database.keySet()) {
-            if(teach.equals(teacher_name)) {
-                teacher_database.remove(teach);
-                if(teacher_student_database.containsKey(teacher_name))
-                    teacher_student_database.remove(teach);
-            }
-        }
+    public void deleteTeacherByName(String teacher_name) throws NullPointerException {
+        if(teacher_database.containsKey(teacher_name))
+            teacher_database.remove(teacher_name);
+        if(teacher_student_database.containsKey(teacher_name))
+            teacher_student_database.remove(teacher_name);
     }
 
-    public String deleteAllTeachers(){
+    public String deleteAllTeachers() throws NullPointerException {
         teacher_student_database.clear();
         teacher_database.clear();
         return "All Teachers Deleted";
