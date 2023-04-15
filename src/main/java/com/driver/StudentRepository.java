@@ -73,7 +73,7 @@ public class StudentRepository {
         return all_students;
     }
 
-    public void deleteTeacherByName(String teacher_name) throws NullPointerException {
+    public void deleteTeacherByName(String teacher_name) {
         for(String teach : teacher_database.keySet()) {
             if(teach.equals(teacher_name)) {
                 teacher_database.remove(teach);
